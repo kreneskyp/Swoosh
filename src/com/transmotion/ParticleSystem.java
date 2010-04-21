@@ -16,11 +16,11 @@ import android.opengl.GLUtils;
 
 public class ParticleSystem {
 	
-	public static final long INTERVAL = 10000;
+	public static final long INTERVAL = 2000;
 	Context mContext;
 	Random random;
 	long next_swoosh = 0;
-    Comet comet;
+    ArrayList<Comet> mComets;
 	
 	// variables for holding object descriptions
 	private FloatBuffer mVertexBuffer;
@@ -37,6 +37,8 @@ public class ParticleSystem {
      * Resets the system, loading models
      */
     public void reset() {
+    	mComets = new ArrayList<Comet>();
+    	
     	random = new Random(System.currentTimeMillis());
     	        
     	// vertices
@@ -72,10 +74,15 @@ public class ParticleSystem {
      */
     public void update(long tick){
     	if (next_swoosh < tick){
-    		comet = new Comet(random);
+    		mComets.add(new Comet(random));
     		next_swoosh += INTERVAL;
+    		if (mComets.size() > 7) {
+    			mComets.remove(0);
+    		}
     	} else {
-    		comet.update(tick);
+    		for(Comet comet: mComets){
+    			comet.update(tick);
+    		}
     	}
     }
     
@@ -145,16 +152,18 @@ public class ParticleSystem {
         // render particles
         gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexBuffer);    // set texture for particle
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);   // set the vertices for particle
-        ArrayList<Particle> particles = comet.particles; 
-        for (Particle particle: particles) {
-            if (particle.alpha > 0){
-                gl.glPushMatrix();
-                gl.glTranslatef(particle.x, particle.y, 0);                                        // move particle into position
-                gl.glScalef(particle.s, particle.s, 0);                                            // scale the particle
-                gl.glColor4f(comet.r, comet.g, comet.b, particle.alpha);                  // set color
-                gl.glDrawElements(GL10.GL_TRIANGLE_FAN, 4, GL10.GL_UNSIGNED_SHORT, indexBuffer);   // render the particle
-                gl.glPopMatrix();
-            }
+        for (Comet comet: mComets) {
+	        ArrayList<Particle> particles = comet.particles; 
+	        for (Particle particle: particles) {
+	            if (particle.alpha > 0){
+	                gl.glPushMatrix();
+	                gl.glTranslatef(particle.x, particle.y, 0);                                        // move particle into position
+	                gl.glScalef(particle.s, particle.s, 0);                                            // scale the particle
+	                gl.glColor4f(comet.r, comet.g, comet.b, particle.alpha);                  // set color
+	                gl.glDrawElements(GL10.GL_TRIANGLE_FAN, 4, GL10.GL_UNSIGNED_SHORT, indexBuffer);   // render the particle
+	                gl.glPopMatrix();
+	            }
+	        }
         }
     }
 }
