@@ -68,6 +68,9 @@ class ClearRenderer implements GLSurfaceView.Renderer {
                 GL10.GL_REPEAT);
         gl.glTexParameterx(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
                 GL10.GL_REPEAT);
+        gl.glDisable(GL10.GL_DITHER);
+        gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
+        gl.glShadeModel(GL10.GL_SMOOTH);
         
         mParticleSystem.loadTexture(gl);
     }
