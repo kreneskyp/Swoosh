@@ -74,9 +74,8 @@ class ClearRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceChanged(GL10 gl, int w, int h) {
         gl.glViewport(0, 0, w, h);
-        GLU.gluOrtho2D(gl, -1f, 1f, -1f, 1f);
         //float ratio = (float) w / h;
-        //gl.glMatrixMode(GL10.GL_PROJECTION);
+        gl.glMatrixMode(GL10.GL_MODELVIEW);
         //gl.glLoadIdentity();
         //gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
 
@@ -85,11 +84,13 @@ class ClearRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
     	gl.glClearColor(0, 0, 0f, 1.0f);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        
+        gl.glFrontFace(gl.GL_CW);
         gl.glTexEnvx(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE,
                 GL10.GL_REPLACE);
     	gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
     	gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-    	gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+    	//gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
     	
 
     	int loops = 0;
