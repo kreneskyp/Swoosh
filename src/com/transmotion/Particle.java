@@ -4,15 +4,6 @@ import java.util.Random;
 
 public class Particle {
 
-	float[] coords = {
-     -0.5f,-0.5f,0,
-	  0.5f,-0.5f,0,
-	  0.5f,0.5f,0,
-	  -0.5f,0.5f,0
-	};
-		
-	short[] icoords = new short[]{0,1,2,3,0};
-	
 	// location
 	public float x;
 	public float y;
@@ -33,9 +24,24 @@ public class Particle {
 	// acceleration;
 	float a = 1;
 	
-	// count;
-	int count = 0;
+	// max distance a particle can travel before beginning to fade
+	public static float MAX_TRAVEL = 1f;
 	
+	// max number of ticks before beginning to fade
+	public static float MAX_TICK = 100;
+	
+	// tick count;
+	int mCount = 0;
+	
+	/**
+	 * Generate a particle - particles are given a specific location (x,y) and are randomly placed near this
+	 * to create a more fluid effect.
+	 * @param x
+	 * @param y
+	 * @param dx - X delta of parent comet
+	 * @param dy - Y delta of parent comet
+	 * @param random - random generator
+	 */
 	public Particle(float x, float y, float dx, float dy, Random random) {
 		this.x = x+random.nextFloat()*.5f-.25f;
 		this.y = y+random.nextFloat()*.4f*dy;
@@ -47,16 +53,16 @@ public class Particle {
 		this.b = 0;
 	}
 	
-	public static float MAX_TRAVEL = 1f;
+	
 	
 	public void update() {
 		x += dx;
 		y += dy;
 		a += 0;
-		count++;
-		float xt = count*dx;
-		float yt = count*dy;
-		if (xt >MAX_TRAVEL || xt<-MAX_TRAVEL || yt > MAX_TRAVEL || yt < -MAX_TRAVEL ) {
+		mCount++;
+		float xt = mCount*dx;
+		float yt = mCount*dy;
+		if (mCount>MAX_TICK || xt >MAX_TRAVEL || xt<-MAX_TRAVEL || yt > MAX_TRAVEL || yt < -MAX_TRAVEL ) {
 			alpha -= 0.02f;
 		}
 	}

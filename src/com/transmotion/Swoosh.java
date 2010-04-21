@@ -77,11 +77,7 @@ class ClearRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceChanged(GL10 gl, int w, int h) {
         gl.glViewport(0, 0, w, h);
-        //float ratio = (float) w / h;
         gl.glMatrixMode(GL10.GL_MODELVIEW);
-        //gl.glLoadIdentity();
-        //gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
-
     }
 
     public void onDrawFrame(GL10 gl) {
@@ -93,8 +89,6 @@ class ClearRenderer implements GLSurfaceView.Renderer {
                 GL10.GL_REPLACE);
     	gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
     	gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-    	//gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
-    	
 
     	int loops = 0;
         while( getTickCount() > next_game_tick && loops < MAX_FRAMESKIP) {

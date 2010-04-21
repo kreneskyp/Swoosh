@@ -7,40 +7,52 @@ public class Comet {
 
 	public ArrayList<Particle> particles = new ArrayList<Particle>();
 	
-	float x, y, dx, dy;
-	boolean main = true;
-	int mx = 10;
-	int my = 10;
+	float mX, mY, mDeltaX, mDeltaY;
+	boolean mMoving = true;
+	int mMaxX = 10;
+	int mMaxY = 10;
 	
 	public static long MIN_UPDATE = 55;
 	public static int MAX_RANDOM = 40;
-	long next_update = 0;
-	Random random;
+	long mNext_update = 0;
+	Random mRandom;
 	
 	public Comet(Random gen) {
-		x = -10f;
-		y = 5f;
-		dx = .5f; //gen.nextFloat()-.5f*2;
-		dy = 0f; //gen.nextFloat()-.5f*2;
-		random = gen;
+		mX = -10f;
+		mY = 5f;
+		mDeltaX = .5f; //gen.nextFloat()-.5f*2;
+		mDeltaY = 0f; //gen.nextFloat()-.5f*2;
+		mRandom = gen;
 	}
 	
+	/**
+	 * 
+	 * @param tick - current clocktime
+	 */
 	public void update(long tick) {
-		if (main) {
-			if (x<-10 || y<-20 || x > mx || y > my) {
-				main = false;
+		// store local variables for performance reasons
+		float x = mX;
+		float y = mY;
+		float deltaX = mDeltaX;
+		float deltaY = mDeltaY;
+		Random random = mRandom;
+		
+		if (mMoving) {
+			// collision detection with boundary of screen
+			if (x<-10 || y<-20 || x > mMaxX || y > mMaxY) {
+				mMoving = false;
 			} else{
-				x += dx;
-				y += dy;
+				mX += deltaX;
+				mY += deltaY;
 			}
 			
 			// create new particles
-			if (next_update < tick) {
-				particles.add(new Particle(x, y, dx, -1, random));
-				particles.add(new Particle(x, y, dx, -1, random));
-				particles.add(new Particle(x, y, dx, 1, random));
-				particles.add(new Particle(x, y, dx, 1, random));
-				next_update += (MIN_UPDATE + random.nextInt(MAX_RANDOM));
+			if (mNext_update < tick) {
+				particles.add(new Particle(x, y, deltaX, -1, random));
+				particles.add(new Particle(x, y, deltaX, -1, random));
+				particles.add(new Particle(x, y, deltaX, 1, random));
+				particles.add(new Particle(x, y, deltaX, 1, random));
+				mNext_update += (MIN_UPDATE + random.nextInt(MAX_RANDOM));
 			}
 		}
 		
