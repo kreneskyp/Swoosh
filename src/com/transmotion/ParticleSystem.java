@@ -151,7 +151,7 @@ public class ParticleSystem {
                 gl.glPushMatrix();
                 gl.glTranslatef(particle.x, particle.y, 0);                                        // move particle into position
                 gl.glScalef(particle.s, particle.s, 0);                                            // scale the particle
-                gl.glColor4f(particle.r, particle.g, particle.b, particle.alpha);                  // set color
+                gl.glColor4f(comet.r, comet.g, comet.b, particle.alpha);                  // set color
                 gl.glDrawElements(GL10.GL_TRIANGLE_FAN, 4, GL10.GL_UNSIGNED_SHORT, indexBuffer);   // render the particle
                 gl.glPopMatrix();
             }

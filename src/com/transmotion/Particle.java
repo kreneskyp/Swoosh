@@ -48,17 +48,18 @@ public class Particle {
 		this.dx = random.nextFloat()*.02f;
 		this.dy = dy*random.nextFloat()*.03f;
 		this.s = random.nextFloat()*2f-.5f;
+		
 		this.r = 1f;
 		this.g = 0;
 		this.b = 0;
 	}
 	
-	
-	
+	/**
+	 * Updates the particles position
+	 */
 	public void update() {
 		x += dx;
 		y += dy;
-		a += 0;
 		mCount++;
 		float xt = mCount*dx;
 		float yt = mCount*dy;
