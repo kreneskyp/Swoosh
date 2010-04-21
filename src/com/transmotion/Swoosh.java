@@ -74,6 +74,12 @@ class ClearRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceChanged(GL10 gl, int w, int h) {
         gl.glViewport(0, 0, w, h);
+        GLU.gluOrtho2D(gl, -1f, 1f, -1f, 1f);
+        //float ratio = (float) w / h;
+        //gl.glMatrixMode(GL10.GL_PROJECTION);
+        //gl.glLoadIdentity();
+        //gl.glFrustumf(-ratio, ratio, -1, 1, 1, 10);
+
     }
 
     public void onDrawFrame(GL10 gl) {
